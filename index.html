@@ -1,0 +1,1361 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f3">
+  <title>A Little World for YOU ♡</title>
+
+  <style>
+    :root {
+      --cream: #fff8f3;
+      --paper: #fffdfb;
+      --pink: #ef7397;
+      --pink-dark: #c94d76;
+      --pink-pale: #fde8ee;
+      --ink: #30292c;
+      --muted: #786b70;
+      --line: #f0dfe2;
+      --shadow: 0 18px 55px rgba(109, 62, 76, .09);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 88px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(255,248,243,.88);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      font-weight: 750;
+      letter-spacing: -.04em;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--pink-dark);
+      padding: 0 5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover { color: var(--pink-dark); }
+
+    .menu-btn {
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+      padding: 8px 11px;
+    }
+
+    .hero {
+      max-width: 1120px;
+      min-height: 76vh;
+      margin: auto;
+      padding: 78px 24px 56px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 38px;
+    }
+
+    .eyebrow {
+      color: var(--pink-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.4rem, 8vw, 6.6rem);
+      line-height: .99;
+      letter-spacing: -.065em;
+      font-weight: 500;
+      margin: 15px 0 24px;
+    }
+
+    h1 em {
+      color: var(--pink-dark);
+      font-weight: 500;
+    }
+
+    .hero-copy {
+      max-width: 560px;
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: var(--muted);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 21px;
+      font-weight: 750;
+      background: var(--pink);
+      color: white;
+      box-shadow: 0 8px 20px rgba(239,115,151,.22);
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: var(--pink-dark);
+    }
+
+    .btn.secondary {
+      background: var(--paper);
+      color: var(--pink-dark);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .btn.small {
+      padding: 9px 15px;
+      font-size: .9rem;
+    }
+
+    .btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .hero-art {
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      border: 1px solid #f5e4e5;
+      border-radius: 48% 48% 42% 42%;
+      background: radial-gradient(
+        circle at 50% 35%, #fff 0,
+        #fff6f1 58%, #fce8ec 100%
+      );
+      overflow: hidden;
+    }
+
+    .hero-art::before,
+    .hero-art::after {
+      content: "♡";
+      position: absolute;
+      color: var(--pink);
+      font-size: 2.3rem;
+      opacity: .8;
+      animation: bob 3.5s ease-in-out infinite;
+    }
+
+    .hero-art::before {
+      top: 17%;
+      left: 18%;
+    }
+
+    .hero-art::after {
+      right: 17%;
+      bottom: 19%;
+      animation-delay: -1.4s;
+    }
+
+    .cat-pair {
+      font-size: clamp(6rem, 13vw, 9rem);
+      filter: drop-shadow(0 12px 10px rgba(141,87,102,.1));
+      animation: bob 4s ease-in-out infinite;
+    }
+
+    .art-note {
+      position: absolute;
+      bottom: 13%;
+      font-family: Georgia, serif;
+      font-style: italic;
+      color: var(--pink-dark);
+      text-align: center;
+    }
+
+    section.content-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 74px 24px;
+    }
+
+    .section-head {
+      max-width: 650px;
+      margin: 0 auto 34px;
+      text-align: center;
+    }
+
+    .section-head h2 {
+      font: 500 clamp(2.2rem, 5vw, 3.4rem)/1.1 Georgia, serif;
+      letter-spacing: -.045em;
+      margin: 10px 0 14px;
+    }
+
+    .section-head p { color: var(--muted); }
+
+    .card {
+      background: rgba(255,253,251,.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(20px, 4vw, 32px);
+      box-shadow: var(--shadow);
+    }
+
+    .quiz-card {
+      max-width: 690px;
+      margin: auto;
+    }
+
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .progress {
+      height: 6px;
+      border-radius: 99px;
+      background: var(--pink-pale);
+      overflow: hidden;
+      margin-bottom: 26px;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 20%;
+      background: var(--pink);
+      border-radius: inherit;
+      transition: width .3s ease;
+    }
+
+    .quiz-card h3 {
+      font-size: clamp(1.25rem, 3vw, 1.65rem);
+      line-height: 1.3;
+    }
+
+    .answers {
+      display: grid;
+      gap: 10px;
+      margin: 22px 0;
+    }
+
+    .answer {
+      width: 100%;
+      text-align: left;
+      background: white;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 13px 15px;
+      transition: .18s ease;
+    }
+
+    .answer:hover,
+    .answer.selected {
+      border-color: var(--pink);
+      background: #fff2f6;
+      transform: translateY(-1px);
+    }
+
+    .answer:focus-visible,
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid #df7093;
+      outline-offset: 3px;
+    }
+
+    .quiz-feedback {
+      min-height: 28px;
+      color: var(--pink-dark);
+      font-weight: 650;
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .envelope {
+      border: 1px solid #f1d9df;
+      border-radius: 22px;
+      padding: 28px;
+      background: linear-gradient(145deg,#fffdfb,#fff0f4);
+      text-align: center;
+    }
+
+    .envelope-icon { font-size: 3rem; }
+
+    .letter-paper {
+      max-width: 590px;
+      margin: 22px auto 0;
+      padding: clamp(22px, 5vw, 42px);
+      background: #fffefa;
+      border: 1px solid #f0e3df;
+      border-radius: 5px 20px 5px 20px;
+      text-align: left;
+      box-shadow: 0 15px 40px rgba(112,75,80,.1);
+      display: none;
+      animation: letterIn .8s ease both;
+    }
+
+    .letter-paper.open { display: block; }
+    .letter-paper p { color: #5f5357; }
+    .type-line { min-height: 1.5em; }
+
+    .letter-paper .signoff {
+      color: var(--pink-dark);
+      font: italic 1.45rem Georgia, serif;
+      margin-bottom: 0;
+    }
+
+    .secret-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .secret {
+      min-height: 155px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--paper);
+      border: 1px dashed #e8b9c8;
+      border-radius: 20px;
+      padding: 18px;
+      text-align: center;
+      transition: transform .2s ease, background .2s ease;
+      color: var(--ink);
+    }
+
+    .secret:hover {
+      transform: translateY(-4px) rotate(-1deg);
+      background: #fff0f5;
+    }
+
+    .secret .symbol { font-size: 1.8rem; }
+    .secret small { color: var(--muted); }
+
+    .secret-message {
+      display: none;
+      color: var(--pink-dark);
+      font-weight: 700;
+      font-size: .95rem;
+    }
+
+    .secret.revealed .secret-prompt { display: none; }
+
+    .secret.revealed .secret-message {
+      display: block;
+      animation: fadeIn .35s ease both;
+    }
+
+    .final-card {
+      max-width: 760px;
+      margin: auto;
+      text-align: center;
+      background: linear-gradient(145deg,#fffdfb,#fdebf0);
+    }
+
+    .final-heart {
+      font-size: 3rem;
+      animation: heartbeat 1.8s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    .date-choice {
+      max-width: 310px;
+      width: 100%;
+      margin: 12px auto 0;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      z-index: 40;
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      pointer-events: none;
+      background: #342b2f;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      max-width: calc(100vw - 32px);
+      text-align: center;
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .floating-heart {
+      position: fixed;
+      z-index: 30;
+      pointer-events: none;
+      color: var(--pink);
+      animation: floatUp 1.8s ease-out forwards;
+    }
+
+    footer {
+      padding: 30px 20px 44px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    footer button {
+      color: var(--pink-dark);
+      border: 0;
+      background: transparent;
+      font-weight: 800;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes bob {
+      0%,100% { translate: 0 0; }
+      50% { translate: 0 -10px; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes letterIn {
+      from { opacity: 0; transform: translateY(18px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(.7) rotate(0);
+      }
+      15% { opacity: 1; }
+      100% {
+        opacity: 0;
+        transform: translateY(-180px) scale(1.3) rotate(20deg);
+      }
+    }
+
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      12% { transform: scale(1.13); }
+      24% { transform: scale(1); }
+      36% { transform: scale(1.08); }
+    }
+
+    @media (max-width: 760px) {
+      .nav-inner { padding: 12px 18px; }
+
+      .menu-btn { display: block; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 12px;
+        right: 12px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--paper);
+        box-shadow: var(--shadow);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+      }
+
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 10px 8px; }
+
+      .hero {
+        min-height: auto;
+        padding: 65px 22px 48px;
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .hero-art {
+        min-height: 260px;
+        order: -1;
+      }
+
+      .cat-pair { font-size: 6.5rem; }
+
+      section.content-section { padding: 58px 18px; }
+
+      .secret-grid { grid-template-columns: 1fr; }
+      .secret { min-height: 120px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+
+      .fade-in {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* =============================================
+       DO YOU LOVE ME? (yes / no) — before Chapter 01
+       ============================================= */
+    #lovecheck {
+      position: relative;
+      overflow: hidden;
+    }
+
+    #lovecheck .yn-card {
+      width: min(92vw, 520px);
+      margin: 0 auto;
+      padding: 42px 20px;
+      text-align: center;
+      border-radius: 24px;
+      background: white;
+      box-shadow: 0 12px 40px #bd527822;
+      font-family: Arial, sans-serif;
+      color: #bd5278;
+    }
+
+    #lovecheck .yn-heart { font-size: 54px; margin-bottom: 12px; }
+
+    #lovecheck h2 {
+      font: bold clamp(26px, 6vw, 38px)/1.2 Arial, sans-serif;
+      letter-spacing: normal;
+      color: #bd5278;
+      margin: 0 0 12px;
+    }
+
+    #lovecheck p { color: #987586; }
+
+    #lovecheck .buttons {
+      display: flex; justify-content: center; align-items: center;
+      gap: 16px; min-height: 100px; margin-top: 16px;
+    }
+
+    #lovecheck .buttons button {
+      border: 0; border-radius: 999px; padding: 14px 26px;
+      font-size: 17px; font-weight: bold; cursor: pointer;
+    }
+
+    #lovecheck #yes { color: white; background: #f08bb0; }
+    #lovecheck #no {
+      color: #bd5278; background: white; border: 2px solid #f3b5ca;
+    }
+
+    #lovecheck #message {
+      min-height: 32px; margin-top: 18px;
+      font-weight: bold; color: #bd5278;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="brand" href="#home" id="brandSecret">
+        Urs S. <span>♡</span> Kareezma
+      </a>
+
+      <button class="menu-btn" id="menuBtn"
+        aria-expanded="false" aria-controls="navLinks">
+        ☰ Menu
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#letter">Letter</a>
+        <a href="#secrets">Secrets</a>
+        <a href="#final">One last thing</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <header class="hero" id="home">
+      <div class="hero-text">
+        <div class="eyebrow">
+          A tiny corner of the internet · made for you
+        </div>
+
+        <h1>Hey,<br><em>Kareezma.</em> <span>♡</span></h1>
+
+        <p class="hero-copy">
+          You're not just someone I love… you're my favorite part
+          of everything. So I made you this little world. It's a
+          little cheesy, a little silly, and 100% yours.
+        </p>
+
+        <div class="button-row">
+          <a class="btn" href="#lovecheck">
+            Explore our little world →
+          </a>
+
+          <button class="btn secondary" id="heartBtn">
+            Send a tiny heart ♡
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-label="Cute imaginary cats hugging">
+        <div class="cat-pair" aria-hidden="true">🐈‍⬛🤍</div>
+        <div class="art-note">
+          two little weirdos, one big soft spot
+        </div>
+      </div>
+    </header>
+
+    <!-- DO YOU LOVE ME? -->
+    <section class="content-section fade-in" id="lovecheck">
+      <div class="yn-card">
+        <div class="yn-heart" aria-hidden="true">💗</div>
+        <h2>Do u love me?</h2>
+        <p>Choose wisely… 🥺</p>
+        <div class="buttons">
+          <button id="yes" type="button">Yes 💖</button>
+          <button id="no" type="button">No 🙈</button>
+        </div>
+        <div id="message" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section class="content-section fade-in" id="quiz">
+      <div class="section-head">
+        <div class="eyebrow">Chapter 01 · extremely important research</div>
+        <h2>The Kareezma Quiz</h2>
+        <p>
+          Five questions. No pressure. The only prize is my
+          completely unbiased admiration.
+        </p>
+      </div>
+
+      <div class="card quiz-card">
+        <div class="quiz-top">
+          <span id="questionCount">Question 1 of 5</span>
+          <span>♡ just for fun</span>
+        </div>
+
+        <div class="progress" aria-label="Quiz progress">
+          <span id="progressBar"></span>
+        </div>
+
+        <h3 id="questionText">
+          What's your favorite thing about us?
+        </h3>
+
+        <div class="answers" id="answers"></div>
+
+        <p class="quiz-feedback" id="quizFeedback" aria-live="polite">
+          Choose your answer, Kareezma.
+        </p>
+
+        <div class="quiz-actions">
+          <button class="btn secondary small" id="restartQuiz">
+            Start over
+          </button>
+          <button class="btn small" id="nextQuestion" disabled>
+            Lock it in ♡
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOVE LETTER -->
+    <section class="content-section fade-in" id="letter">
+      <div class="section-head">
+        <div class="eyebrow">Chapter 02 · jokes aside for a second</div>
+        <h2>A little letter for you</h2>
+        <p>Tap the envelope. Yes, it's a little dramatic. Let me have this.</p>
+      </div>
+
+      <div class="envelope">
+        <div class="envelope-icon" aria-hidden="true">💌</div>
+
+        <h3 id="letterPrompt">A letter addressed to Kareezma</h3>
+
+        <p style="color:var(--muted)">
+          One small click. A few honest words.
+        </p>
+
+        <button class="btn" id="openLetter">
+          Open your letter ♡
+        </button>
+
+        <article class="letter-paper" id="letterPaper" aria-live="polite">
+          <p>Hey Kareezma,</p>
+
+          <p class="type-line" id="letterLine1"></p>
+          <p class="type-line" id="letterLine2"></p>
+          <p class="type-line" id="letterLine3"></p>
+          <p class="type-line" id="letterLine4"></p>
+          <p class="type-line" id="letterLine5"></p>
+          <p class="type-line" id="letterLine6"></p>
+          <p class="type-line" id="letterLine7"></p>
+          <p class="type-line" id="letterLine8"></p>
+          <p class="type-line" id="letterLine9"></p>
+          <p class="type-line" id="letterLine10"></p>
+
+
+          <p class="signoff">Always yours, Urs S. ♡</p>
+
+          <button class="btn secondary small" id="replayLetter">
+            Read it again
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <!-- EASTER EGGS -->
+    <section class="content-section fade-in" id="secrets">
+      <div class="section-head">
+        <div class="eyebrow">Chapter 03 · you found the secret corner</div>
+        <h2>Little things, just for you</h2>
+        <p>Tap every card. There are no wrong answers, only suspiciously cute messages.</p>
+      </div>
+
+      <div class="secret-grid">
+        <button class="secret" data-secret="0" aria-pressed="false">
+          <span class="symbol">♡</span>
+          <strong class="secret-prompt">A tiny reminder</strong>
+          <span class="secret-message">
+            You are Officially 16, Kareezma. ♡
+          </span>
+          <small>tap to reveal</small>
+        </button>
+
+        <button class="secret" data-secret="1" aria-pressed="false">
+          <span class="symbol">✦</span>
+          <strong class="secret-prompt">A classified fact</strong>
+          <span class="secret-message">
+            Urs S. thinks you're the SEXIEST, HOTTEST person in the world. 
+              HIS BOOBY!
+          </span>
+          <small>tap to reveal</small>
+        </button>
+
+        <button class="secret" data-secret="2" aria-pressed="false">
+          <span class="symbol">☻</span>
+          <strong class="secret-prompt">A very serious award</strong>
+          <span class="secret-message">
+            Achievement unlocked: Professional heart thief.
+          </span>
+          <small>tap to reveal</small>
+        </button>
+      </div>
+
+      <p style="text-align:center;color:var(--muted);margin-top:18px;font-size:.9rem">
+        Psst… try clicking the “Urs S. ♡ Kareezma” logo a few times, too.
+      </p>
+    </section>
+
+    <!-- FINAL SURPRISE -->
+    <section class="content-section fade-in" id="final">
+      <div class="section-head">
+        <div class="eyebrow">Final chapter · no plot twist, just love</div>
+        <h2>One last thing…</h2>
+      </div>
+
+      <div class="card final-card">
+        <div class="final-heart" aria-hidden="true">♡</div>
+
+        <h3>I'm really glad it's you, Kareezma.</h3>
+
+        <p style="color:var(--muted);max-width:520px;margin:0 auto 18px">
+          No big reason for this website. I just wanted to make
+          something that might make you smile. If it worked,
+          mission accomplished.
+        </p>
+
+        <label for="dateChoice">
+          <strong>Pick our next little adventure</strong>
+        </label>
+
+        <select class="date-choice" id="dateChoice">
+          <option value="">Choose a tiny date idea…</option>
+          <option>Movie night + snacks</option>
+          <option>A long walk and a long talk</option>
+          <option>Try a new café or treat</option>
+          <option>Game night — winner picks dessert</option>
+          <option>Booking OYO</option>
+          <option>A surprise date (you plan it, Kareezma)</option>
+        </select>
+
+        <div style="margin-top:16px">
+          <button class="btn" id="dateBtn">Make it official ♡</button>
+        </div>
+
+        <p id="dateFeedback" aria-live="polite"
+          style="color:var(--pink-dark);font-weight:700;margin:14px 0 0">
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Made with a little too much affection by
+    <button id="footerSecret">Urs S.</button>
+    · for Kareezma, always ♡
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // =============================================
+    // PERSONALIZE YOUR WEBSITE HERE
+    // =============================================
+
+    const quizQuestions = [
+      {
+        question: "What's your favorite thing about us?",
+        answers: [
+          "Our endless conversations",
+          "Our random, silly moments",
+          "Our cute little fights that leads to fake breakups",
+          "Literally everything, duh"
+        ],
+        reactions: [
+          "One conversation with you can turn an ordinary day into my favorite day. ♡",
+          "Our chaos deserves its own award, honestly.",
+          "Our fights are just a way of saying we care.",
+          "Excellent answer. Kareezma has excellent taste. Case closed."
+        ]
+      },
+      {
+        question: "What's the official vibe of this relationship?",
+        answers: [
+          "Two cuties being cute",
+          "A comedy show with feelings",
+          "Softest hearts, darkest brains",
+          "All of the above, obviously"
+        ],
+        reactions: [
+          "A devastatingly cute duo. The public is not ready.",
+          "Critics call it 'unhinged but wholesome.'",
+          "Honestly? That's a pretty lovely combination.",
+          "Correct. No further investigation required. ♡"
+        ]
+      },
+      {
+        question: "What should we do on our First Date?",
+        answers: [
+          "Watch something cozy",
+          "Go out for a little adventure",
+          "Eat something delicious",
+          "Do something more cozy inside a blanket",
+          "Anything, as long as we're together"
+        ],
+        reactions: [
+          "Blankets, snacks, and your company? Elite plan.",
+          "New memories loading… please stand by.",
+          "A date and a snack? A genius combination.",
+          "A blanket is the ultimate cozy experience. I approve.",
+          "That answer was illegally sweet, Kareezma."
+        ]
+      },
+      {
+        question: "What happens when Kareezma clicks a mysterious heart?",
+        answers: [
+          "It explodes into confetti",
+          "A secret message appears",
+          "Urs S. gets dramatic",
+          "Probably all three"
+        ],
+        reactions: [
+          "Not quite confetti, but we can absolutely add some.",
+          "You may be onto something. Keep exploring…",
+          "I plead guilty to being a little dramatic.",
+          "You know me too well. That's suspicious. ♡"
+        ]
+      },
+      {
+        question: "Final question: who's a very special person?",
+        answers: [
+          "Sarves Prabu",
+          "Karuva Payan",
+          "Venna Mavan",
+          "Idiot",
+          "Copy of ME",
+          "I think we're seeing a pattern",
+        ],
+        reactions: [
+          "Correct. You have successfully completed the Kareezma exam. ♡",
+          "A second correct answer. Remarkable.",
+          "The evidence is overwhelming: it's Venna Mavan.",
+          "You are correct. The answer is… idiot. But in a cute way.",
+          "A copy of ME? That's a little concerning, but I'll allow it.",
+          "Quiz complete. Reward: one very enthusiastic virtual hug."
+        ]
+      }
+    ];
+
+    let questionIndex = 0;
+    let selectedAnswer = null;
+    let brandClicks = 0;
+    let toastTimer;
+    let letterTimers = [];
+
+    const $ = (id) => document.getElementById(id);
+
+    const questionText = $("questionText");
+    const answersEl = $("answers");
+    const nextBtn = $("nextQuestion");
+    const feedback = $("quizFeedback");
+
+    // =============================================
+    // INTERACTIVE QUIZ
+    // =============================================
+
+    function renderQuestion() {
+      const q = quizQuestions[questionIndex];
+
+      selectedAnswer = null;
+
+      $("questionCount").textContent =
+        `Question ${questionIndex + 1} of ${quizQuestions.length}`;
+
+      $("progressBar").style.width =
+        `${((questionIndex + 1) / quizQuestions.length) * 100}%`;
+
+      questionText.textContent = q.question;
+      answersEl.replaceChildren();
+
+      q.answers.forEach((answer, index) => {
+        const button = document.createElement("button");
+
+        button.className = "answer";
+        button.type = "button";
+        button.textContent = answer;
+
+        button.addEventListener("click", () => {
+          selectedAnswer = index;
+
+          answersEl.querySelectorAll(".answer").forEach((el) => {
+            el.classList.remove("selected");
+          });
+
+          button.classList.add("selected");
+          nextBtn.disabled = false;
+          feedback.textContent = "Locked in? Ready when you are, Kareezma. ♡";
+        });
+
+        answersEl.appendChild(button);
+      });
+
+      feedback.textContent = "Choose your answer, Kareezma.";
+      nextBtn.disabled = true;
+      nextBtn.textContent =
+        questionIndex === quizQuestions.length - 1
+          ? "See my result ♡"
+          : "Lock it in ♡";
+
+      nextBtn.onclick = handleNextQuestion;
+    }
+
+    function handleNextQuestion() {
+      if (selectedAnswer === null) return;
+
+      feedback.textContent =
+        quizQuestions[questionIndex].reactions[selectedAnswer];
+
+      if (questionIndex < quizQuestions.length - 1) {
+        nextBtn.textContent = "Next question →";
+        nextBtn.onclick = () => {
+          questionIndex++;
+          renderQuestion();
+        };
+      } else {
+        questionText.textContent = "Official result: certified cutie ♡";
+        answersEl.replaceChildren();
+        $("questionCount").textContent = "Quiz complete!";
+        $("progressBar").style.width = "100%";
+        nextBtn.disabled = false;
+        nextBtn.textContent = "Play again";
+
+        nextBtn.onclick = () => {
+          questionIndex = 0;
+          renderQuestion();
+        };
+      }
+    }
+
+    nextBtn.addEventListener("click", handleNextQuestion);
+
+    $("restartQuiz").addEventListener("click", () => {
+      questionIndex = 0;
+      renderQuestion();
+    });
+
+    // =============================================
+    // TOAST MESSAGE + FLOATING HEARTS
+    // =============================================
+
+    function showToast(message) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2600);
+    }
+
+    function burstHearts(x, y, count = 7) {
+      const symbols = ["♡", "♥", "✦", "୨୧"];
+
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement("span");
+
+        heart.className = "floating-heart";
+        heart.textContent =
+          symbols[Math.floor(Math.random() * symbols.length)];
+
+        heart.style.left =
+          `${x + (Math.random() - .5) * 90}px`;
+
+        heart.style.top =
+          `${y + (Math.random() - .5) * 24}px`;
+
+        heart.style.fontSize = `${16 + Math.random() * 18}px`;
+
+        document.body.appendChild(heart);
+
+        heart.addEventListener("animationend", () => {
+          heart.remove();
+        }, { once: true });
+      }
+    }
+
+    $("heartBtn").addEventListener("click", (event) => {
+      burstHearts(event.clientX, event.clientY, 12);
+      showToast("A tiny heart delivery for Kareezma. ♡");
+    });
+
+    // =============================================
+    // HIDDEN MESSAGES / EASTER EGGS
+    // =============================================
+
+    document.querySelectorAll(".secret").forEach((card) => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("revealed");
+
+        const revealed = card.classList.contains("revealed");
+
+        card.setAttribute("aria-pressed", String(revealed));
+
+        const rect = card.getBoundingClientRect();
+
+        burstHearts(
+          rect.left + rect.width / 2,
+          rect.top + rect.height / 2,
+          5
+        );
+      });
+    });
+
+    $("brandSecret").addEventListener("click", (event) => {
+      brandClicks++;
+
+      if (brandClicks >= 5) {
+        event.preventDefault();
+        brandClicks = 0;
+
+        showToast(
+          "Achievement unlocked: you found your favorite person. ♡"
+        );
+
+        burstHearts(window.innerWidth / 2, 90, 14);
+      }
+    });
+
+    $("footerSecret").addEventListener("click", (event) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+
+      burstHearts(
+        rect.left + rect.width / 2,
+        rect.top,
+        10
+      );
+
+      showToast(
+        "Official statement from Urs S.: Kareezma is pretty amazing."
+      );
+    });
+
+    // =============================================
+    // ANIMATED LOVE LETTER
+    // =============================================
+
+    const letterLines = [
+      "I made this tiny corner of the internet just for you. It's a little silly, a little cheesy, and maybe a little embarrassing… but that's kind of the point.",
+
+      "I wanted to make you something you could open whenever you need a smile. Something that reminds you that you're special to me, even on ordinary days.",
+
+      "I don't need a perfect world or a perfect story. I'm just really happy I get to share little moments with you.",
+
+      "And it's gonna be 5 years since we met, and I can't wait for the next 5, 10, 20… whatever it is, as long as it's with you.",
+
+      "I LOVED YOU ! I LOVE YOU ! I WILL ALWAYS LOVE YOU FOREVER !",
+
+      "I think this is my first present or whatever I made for you. And hope you love it.",
+
+      "And SORRY for everything I did to you. I know I hurt you a lot. But I promise I never made it intentionally. Learning to how to RESPECT, TREAT, BEHAVE TO YOU.",
+
+      "I know I am not perfect. But I will try to be perfect for you. I will try to be the best person for you. I will try to be the best boyfriend for you. I will try to be the best friend for you. I will try to be the best everything for you.",
+
+      "NOTE: From point 4 onwards are my personal feelings. I just wanted to say it to you.",
+
+      "If this website made you smile even a little, then mission accomplished. You deserve good things, soft days, and plenty of reasons to laugh. ♡"
+    ];
+
+    function typeLetter() {
+      letterTimers.forEach(clearTimeout);
+      letterTimers = [];
+
+      $("letterPaper").classList.remove("open");
+
+      // Restart the opening animation.
+      void $("letterPaper").offsetWidth;
+
+      $("letterPaper").classList.add("open");
+      $("letterPrompt").textContent = "For my Kareezma ♡";
+      $("openLetter").textContent = "Letter opened ♡";
+
+      letterLines.forEach((line, lineIndex) => {
+        const target = $(`letterLine${lineIndex + 1}`);
+
+        target.textContent = "";
+
+        let charIndex = 0;
+
+        function typeNext() {
+          target.textContent = line.slice(0, charIndex);
+          charIndex++;
+
+          if (charIndex <= line.length) {
+            const timer = setTimeout(typeNext, 18);
+            letterTimers.push(timer);
+          }
+        }
+
+        const timer = setTimeout(typeNext, lineIndex * 950);
+        letterTimers.push(timer);
+      });
+    }
+
+    $("openLetter").addEventListener("click", typeLetter);
+    $("replayLetter").addEventListener("click", typeLetter);
+
+    // =============================================
+    // DATE PICKER
+    // =============================================
+
+    $("dateBtn").addEventListener("click", () => {
+      const choice = $("dateChoice").value;
+
+      if (!choice) {
+        $("dateFeedback").textContent =
+          "Kareezma, choose our adventure first. I can't plan a mystery with no clues. ♡";
+        return;
+      }
+
+      $("dateFeedback").textContent =
+        `It's a date: ${choice}. Consider it officially suggested by Kareezma. ♡`;
+
+      burstHearts(
+        window.innerWidth / 2,
+        window.innerHeight * .72,
+        12
+      );
+    });
+
+    // =============================================
+    // MOBILE NAVIGATION
+    // =============================================
+
+    const menuBtn = $("menuBtn");
+    const navLinks = $("navLinks");
+
+    menuBtn.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+
+      menuBtn.setAttribute("aria-expanded", String(open));
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    // =============================================
+    // REVEAL SECTIONS AS YOU SCROLL
+    // =============================================
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12 });
+
+      document.querySelectorAll(".fade-in").forEach((el) => {
+        observer.observe(el);
+      });
+    } else {
+      document.querySelectorAll(".fade-in").forEach((el) => {
+        el.classList.add("visible");
+      });
+    }
+
+    // =============================================
+    // DO YOU LOVE ME? (yes / no)
+    // =============================================
+
+    const yes = $("yes");
+    const no = $("no");
+    const ynMessage = $("message");
+    const loveSection = $("lovecheck");
+    let yesScrollTimer;
+
+    // The "No" button dodges around inside its own section only.
+    function runAway() {
+      const margin = 12;
+      const area = loveSection.getBoundingClientRect();
+      const btn = no.getBoundingClientRect();
+      const maxX = Math.max(0, area.width - btn.width - margin * 2);
+      const maxY = Math.max(0, area.height - btn.height - margin * 2);
+
+      no.style.position = "absolute";
+      no.style.left = (margin + Math.random() * maxX) + "px";
+      no.style.top = (margin + Math.random() * maxY) + "px";
+      no.style.zIndex = "10";
+    }
+
+    no.addEventListener("pointerenter", runAway);
+    no.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      runAway();
+    });
+    no.addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      runAway();
+    }, { passive: false });
+    no.addEventListener("click", (event) => {
+      event.preventDefault();
+      runAway();
+    });
+
+    yes.addEventListener("click", () => {
+      ynMessage.textContent = "Yay! 💖 I love you too! — Urs S.";
+      no.hidden = true;
+
+      const rect = yes.getBoundingClientRect();
+      burstHearts(rect.left + rect.width / 2, rect.top, 14);
+
+      // After the "Yay!" message, glide on to Chapter 01.
+      clearTimeout(yesScrollTimer);
+      yesScrollTimer = setTimeout(() => {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        $("quiz").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      }, 2000);
+    });
+
+    // Start the quiz when the page loads.
+    renderQuestion();
+  </script>
+</body>
+</html>
+
+
